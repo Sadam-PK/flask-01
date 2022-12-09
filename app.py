@@ -1,11 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def show():
-    return 'hi'
+    return render_template('index.html')
+    # return 'hi'
 
 
 @app.route('/products')
