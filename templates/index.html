@@ -50,21 +50,17 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <form class="container my-3">
+<div class="container my-3">
+    <form action='/' method="POST">
         <div class="container">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="container">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="title" class="form-label">Todo Title</label>
+            <input type="text" name="title" class="form-control" id="title" aria-describedby="emailHelp">
         </div>
         <div class="container my-3">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <label for="desc" class="form-label">Todo Description</label>
+            <input type="text" name="desc" class="form-control" id="desc">
         </div>
+
         <div class="container my-3">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
@@ -75,14 +71,14 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">SNo</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Time</th>
         </tr>
         </thead>
         <tbody>
-        {%for todo in all_todo%}
+        {%for todo in todo_list%}
 
         <tr>
             <th scope="row">{{todo.sno}}</th>

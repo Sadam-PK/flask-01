@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -18,20 +18,20 @@ class Todo(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-@app.route('/')
-def show():
-    todo = Todo(title="first todo", desc="Start Investing")
-    db.session.add(todo)
-    db.session.commit()
+@app.route('/', methods=['GET', 'POST'])
+def insert_todo():
+    if request.method == 'POST':
+        title = request.form['title']
+        desc = request.form['desc']
+        todo = Todo(title=title, desc=desc)
+        db.session.add(todo)
+        db.session.commit()
     all_todo = Todo.query.all()
-    # print(all_todo)
-    return render_template('index.html', all_todo=all_todo)
+    return render_template('index.html', todo_list=all_todo)
 
 
-@app.route('/show')
+@app.route('/products')
 def products():
-    all_todo = Todo.query.all()
-    print(all_todo)
     return 'This is products page.'
 
 
