@@ -40,9 +40,20 @@ def products():
     return 'This is products page.'
 
 
-@app.route('/update')
-def update():
-    return 'This is update page.'
+@app.route('/update/<int:sno>', methods=['GET', 'POST'])
+def update(sno):
+    if request.method == 'POST':
+        title = request.form['title']
+        desc = request.form['desc']
+        todo_update = Todo.query.filter_by(sno=sno).first()
+        todo_update.title = title
+        todo_update.desc = desc
+        db.session.add(todo_update)
+        db.session.commit()
+        return redirect('/')
+    
+    todo_update = Todo.query.filter_by(sno=sno).first()
+    return render_template('update.html', todo=todo_update)
 
 
 @app.route('/delete/<int:sno>')
