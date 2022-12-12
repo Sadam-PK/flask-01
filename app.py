@@ -1,14 +1,19 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite3"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
 class Todo(db.Model):
@@ -33,6 +38,19 @@ def insert_todo():
 @app.route('/products')
 def products():
     return 'This is products page.'
+
+
+@app.route('/update')
+def update():
+    return 'This is update page.'
+
+
+@app.route('/delete/<int:sno>')
+def delete(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect('/')
 
 
 if __name__ == '__main__':
